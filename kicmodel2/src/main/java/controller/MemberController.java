@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +31,45 @@ public class MemberController extends MskimRequestMapping{
 	public String join(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub		
 		return "/view/member/join.jsp";
+	}
+	
+	@RequestMapping("joinPro")
+	public String joinPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String tel = request.getParameter("tel");
+		int gender = Integer.parseInt(request.getParameter("gender"));
+		
+		KicMemberDAO dao = new KicMemberDAO();
+		String msg="";
+		String url="join";
+				
+		KicMember mem = dao.getMember(id);
+		if(mem == null) {
+			KicMember newMem = new KicMember();
+			newMem.setId(id);
+			newMem.setPw(pw);
+			newMem.setName(name);
+			newMem.setEmail(email);
+			newMem.setTel(tel);
+			newMem.setGender(gender);
+			int num = dao.insertMember(newMem);
+			if(num>0) {
+				msg="회원가입 성공";
+				url = "login";
+			}else {
+				msg="회원가입 실패";
+			}
+		} else {
+			msg="이미 존재하는 유저입니다";
+		}
+
+		request.setAttribute("msg",msg);
+		request.setAttribute("url", url);
+		return "/view/alert.jsp";
 		
 	}
 	
@@ -167,9 +207,85 @@ public class MemberController extends MskimRequestMapping{
 		return "/view/member/memberDeleteForm.jsp";
 	}
 	
+	@RequestMapping("memberDeletePro")
+	public String memberDeletePro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		KicMemberDAO dao = new KicMemberDAO();
+		String msg="";
+		String url="memberDeleteForm";
+		String id = (String) session.getAttribute("id");
+		String pw = request.getParameter("pw");
+		KicMember mem = dao.getMember(id);
+		if(mem!=null) {
+			if(pw.equals(mem.getPw())) {
+				dao.deleteMember(id);
+				msg="회원탈퇴 성공";
+				session.invalidate();
+				url="login";
+			}else {
+				msg="비밀번호가 틀립니다";
+			}
+		}else {
+			msg="오류 발생";
+		}
+		
+		request.setAttribute("msg", msg);
+		request.setAttribute("url", url);
+		return "/view/alert.jsp";
+	}
+	
 	@RequestMapping("memberPassForm")
 	public String memberPassForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		return "/view/member/memberUpdateForm.jsp";
+		return "/view/member/memberPassForm.jsp";
 	}
+	
+	@RequestMapping("memberPassPro")
+	public String memberPassPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		KicMemberDAO dao = new KicMemberDAO();
+		String msg="";
+		String url="memberPassForm";
+		String id = (String) session.getAttribute("id");
+		String pw = request.getParameter("pw");
+		String pw2 = request.getParameter("pw2");
+		
+		KicMember mem = dao.getMember(id);
+		if(mem!=null) {
+			if(pw.equals(mem.getPw())) {
+				int num = dao.updatePassword(id,pw2);
+				if(num>0) {
+					msg="비밀번호 수정 성공";
+					url="login";
+					session.invalidate();
+				}else {
+					msg="비밀번호 수정 실패";
+				}
+
+			}else {
+				msg="비밀번호가 틀립니다";
+			}
+		}else {
+			msg="오류 발생";
+		}
+		
+		request.setAttribute("msg", msg);
+		request.setAttribute("url", url);
+		return "/view/alert.jsp";
+	}
+	
+	
+	
+	@RequestMapping("memberList")
+	public String memberList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		KicMemberDAO dao = new KicMemberDAO();
+		ArrayList<KicMember> memList = dao.getAllMember();
+		request.setAttribute("memList", memList);
+		return "/view/member/memberList.jsp";
+	}
+	
+	
 }

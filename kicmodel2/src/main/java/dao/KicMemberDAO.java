@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.KicMember;
 
@@ -63,6 +65,43 @@ public class KicMemberDAO {
 			return null;
 		}
 	}
+	
+public ArrayList<KicMember> getAllMember() {
+		
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "select * from kicmember";
+		ArrayList<KicMember> memList = new ArrayList<>();
+		// 4. mapping
+		try {
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+					KicMember mem = new KicMember();
+					
+					String id = rs.getString("id");
+					String name = rs.getString("name");
+					String tel = rs.getString("tel");
+					String email = rs.getString("email");
+					int gender = rs.getInt("gender");
+					
+					mem.setId(id);
+					mem.setName(name);
+					mem.setTel(tel);
+					mem.setEmail(email);
+					mem.setGender(gender);
+					
+					memList.add(mem);
+			}
+			return memList;
+					
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	
 	public int insertMember(KicMember kic) {
@@ -156,5 +195,7 @@ public class KicMemberDAO {
 		}
 		return 0;
 	}
+	
+	
 
 }

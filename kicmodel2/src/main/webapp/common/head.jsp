@@ -21,8 +21,19 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-light">
  <ul class="navbar-nav">
- <c:if test="${sessionScope.id==null }">
-   <li class="nav-item">
+ <c:if test="${sessionScope.id != null }">
+ 
+       <li class="nav-item">
+    <a class="nav-link" href="${pageContext.request.contextPath}/member/joinInfo">회원정보[<%=session.getAttribute("id")%>]</a>
+   </li>
+      <li class="nav-item">
+     <a class="nav-link" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+   </li>
+
+   </c:if>
+   
+   <c:if test="${sessionScope.id == null }">
+      <li class="nav-item">
      <a class="nav-link" href="${pageContext.request.contextPath}/member/join">회원가입</a>
    </li>
    
@@ -30,15 +41,19 @@
      <a class="nav-link" href="${pageContext.request.contextPath}/member/login">로그인</a>
    </li>
    </c:if>
-      <li class="nav-item">
-    <a class="nav-link" href="${pageContext.request.contextPath}/member/joinInfo">회원정보[<%=session.getAttribute("id")%>]</a>
-   </li>
-      <li class="nav-item">
-     <a class="nav-link" href="${pageContext.request.contextPath}/member/logOut">로그아웃</a>
-   </li>
+   
+
    <li class="nav-item">
      <a class="nav-link" href="#">공지사항</a>
    </li>
+   
+   <c:if test="${sessionScope.id eq 'admin' }">
+      <li class="nav-item">
+     		<a class="nav-link" href="${pageContext.request.contextPath}/member/memberList">회원리스트</a>
+   		</li>
+   </c:if>
+   
+   
  </ul>
 </nav>
 <br>
