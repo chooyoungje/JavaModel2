@@ -1,3 +1,5 @@
+<%@page import="model.KicMember"%>
+<%@page import="dao.KicMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <html>
@@ -33,88 +35,65 @@ body {
 	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
 }
+
+
 </style>
 </head>
-<script>
-function win_upload() {
-	let op = "width=500, height=150, left=50, top=150";
-	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);
-}
-
-</script>
 <body>
+
+
 <br>
 	<div class="container">
 		<div class="input-form-backgroud row">
 			<div class="input-form col-md-12 mx-auto">
-				<h4 class="mb-3">회원가입</h4>
-				<form class="validation-form" novalidate      action="joinPro"   method="post">
+				<h4 class="mb-3">게시글 수정</h4>
+				<form class="validation-form" novalidate      action="boardUpdatePro"   method="post">
 					<div class="row">
 					   <div class="col-md-3 mb-3">
-							<label for="id">사진</label> <img src=""  width="100px"  height="120px" id="pic" name="picture">
-							<button   class="btn btn-primary  btn-block" onclick="win_upload()">사진업로드</button>
+							<label for="id">사진</label> <img src=""  width="100px"  height="120px" name="file1">
+							<button   class="btn btn-primary  btn-block">이미지</button>
 						</div>
 						<div class="col-md-9 mb-3">
 						<div class="row">
+						
 						<div class="col-md-6 mb-3">
-							<label for="id">아이디</label> <input type="text"
-								class="form-control" id="id" placeholder="아이디" value="" required  name="id">
-							<div class="invalid-feedback">아이디을 입력해주세요.</div>
+							<input type="hidden" readonly
+								class="form-control" id="id" placeholder="글번호" value="${board.num }" required  name="num">
+							<div class="invalid-feedback">제목을 입력해주세요.</div>
 						</div>
 						<div class="col-md-6 mb-3">
-							<label for="name">이름</label> <input type="text"
-								class="form-control" id="name" placeholder="" value=""  name="name"
-								required>
-							<div class="invalid-feedback">이름을 입력해주세요.</div>
+							<label for="id">제목</label> <input type="text" readonly
+								class="form-control" id="id"  value="${board.subject }" required  name="subject">
+							<div class="invalid-feedback">제목을 입력해주세요.</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="content">내용</label> 
+								<textarea class="form-control" id="content" name="content" rows="5" cols="30">${board.content }</textarea>
+							<div class="invalid-feedback">내용을 입력해주세요.</div>
 						</div>
 					</div></div></div>
 					
 						<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="pass">비밀번호</label> <input type="password"
-								class="form-control" id="pass" placeholder="아이디" value="" required  name="pw">
+								class="form-control" id="pass" placeholder="비밀번호" value="${board.pw }" required  name="pw">
 							<div class="invalid-feedback">비밀번호을 입력해주세요.</div>
 						</div>
-						<div class="col-md-6 mb-3">
-							<label for="pass2">비밀번호확인</label> <input type="password"
-								class="form-control" id="pass2" placeholder="" value=""   name="pw2"
-								required>
-							<div class="invalid-feedback">비밀번호확인을 입력해주세요.</div>
-						</div>
 					</div>
 					
-						<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="gender">남자</label> <input type="radio"
-								 id="gender"  value="1" required  name="gender" >
-						
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="gender">여자</label> <input type="radio"
-								 id="gender" placeholder="" value="2"   name="gender"
-								required>
-							
-						</div>
-					</div>
 					
 					<div class="mb-3">
-						<label for="email">이메일</label> <input type="email"  name="email"
-							class="form-control" id="email" placeholder="you@example.com"
+						<label for="email">이름</label> <input type="text"  name="name" value="${board.name }"
+							class="form-control" id="email" 
 							required>
-						<div class="invalid-feedback">이메일을 입력해주세요.</div>
+						<div class="invalid-feedback">이름을 입력해주세요.</div>
 					</div>
-					<div class="mb-3">
-						<label for="tel">전화번호</label> <input type="text"
-							class="form-control" id="tel" placeholder="전화번호"    name="tel"
-							required>
-						<div class="invalid-feedback">전화번호를 입력해주세요.</div>
-					</div>	
-					<button class="btn btn-primary btn-lg btn-block" type="submit">가입
+					<button class="btn btn-primary btn-lg btn-block" type="submit">수정
 						완료</button>
-						
 				</form>
 			</div>
 		</div>
+			<% System.out.print(request.getContextPath()); %>
 	</div>
 	<script> window.addEventListener('load', () => { const forms = document.getElementsByClassName('validation-form'); Array.prototype.filter.call(forms, (form) => { form.addEventListener('submit', function (event) { if (form.checkValidity() === false) { event.preventDefault(); event.stopPropagation(); } form.classList.add('was-validated'); }, false); }); }, false); </script>
 </body>

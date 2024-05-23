@@ -7,7 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-response.sendRedirect(request.getContextPath()+"/member/login"); 
-%>
+
+<script>
+let img = opener.document.getElementById("pic")
+img.src="${pageContext.request.contextPath}/img/member/picture/${filename}";
+alert(img.src)
+window.close();
+</script>
+</body>
 </html>

@@ -42,7 +42,7 @@
   					<tr>
   						<td>${a.num}</td>
   						<td>${a.name}</td>
-  						<td>${a.subject}</td>
+  						<td><a href="boardInfo?num=${a.num}">${a.subject}</a></td>
   						<td>${a.content}</td>
   						<td>${a.file1}</td>
   						<td>${a.regdate}</td>

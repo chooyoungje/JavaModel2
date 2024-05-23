@@ -21,6 +21,10 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-light">
  <ul class="navbar-nav">
+ 
+ <a class="navbar-brand" href="${pageContext.request.contextPath}/board/boardList">
+ 	<img src="${pageContext.request.contextPath}/img/logo.png" alt="Logo" style="width:50%;">
+ </a>
  <c:if test="${sessionScope.id != null }">
  
        <li class="nav-item">
@@ -44,7 +48,7 @@
    
 
    <li class="nav-item">
-     <a class="nav-link" href="#">공지사항</a>
+     <a class="nav-link" href="${pageContext.request.contextPath}/board/boardList">게시판</a>
    </li>
    
    <c:if test="${sessionScope.id eq 'admin' }">

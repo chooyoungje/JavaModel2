@@ -62,7 +62,7 @@ public class BoardDAO {
 		
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
-		String sql = "select * from kicboard";
+		String sql = "select * from kicboard order by num desc";
 		ArrayList<KicBoard> boardList = new ArrayList<KicBoard>();
 		
 			try {
@@ -98,7 +98,83 @@ public class BoardDAO {
 			}			
 
 		}
-		
+	public KicBoard getBoard (int num){
+			
+			Connection conn = getConnection();
+			PreparedStatement pstmt = null;
+			String sql = "select * from kicboard where num = ?";
+			KicBoard board = new KicBoard();
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					ResultSet rs =  pstmt.executeQuery();
+					while(rs.next()) {
+				
+					int dBnum = rs.getInt("num");
+					String pw = rs.getString("pass");
+					String name = rs.getString("name");
+					String dbSubject = rs.getString("subject");
+					String content = rs.getString("content");
+					Date date = rs.getDate("regdate");
+					String boardId = rs.getString("boardid");
+					int readcnt = rs.getInt("readcnt");
+					
+					board.setNum(dBnum);
+					board.setPw(pw);
+					board.setName(name);
+					board.setSubject(dbSubject);
+					board.setContent(content);
+					board.setRegdate(date);
+					board.setBoardid(boardId);
+					board.setReadcnt(readcnt);
+					}
+					
+					return board;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return null;
+				}			
+
+			}
+	
+	
+	public int deleteBoard(int num) {
+		Connection conn = getConnection();
+		PreparedStatement pstmt= null;
+		String sql = "delete from kicboard where num = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			int result = pstmt.executeUpdate();
+			return result;
+		} catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	
+	public int updateBoard(KicBoard board) {
+		Connection conn = getConnection();
+		PreparedStatement pstmt= null;
+		String sql = "update kicboard set name=?, pass=?, subject=?,content=?, file1=? where num = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getName());
+			pstmt.setString(2, board.getPw());
+			pstmt.setString(3, board.getSubject());
+			pstmt.setString(4, board.getContent());
+			pstmt.setString(5, board.getFile1());
+			pstmt.setInt(6, board.getNum());
+			
+			int result = pstmt.executeUpdate();
+			return result;
+		} catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
 	}
 	
 	

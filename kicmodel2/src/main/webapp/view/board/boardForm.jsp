@@ -47,6 +47,10 @@ function chkpw(f){
 	}
 }
 
+function win_upload() {
+	let op = "width=500, height=150, left=50, top=150";
+	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);
+}
 
 </script>
 <body>
@@ -59,6 +63,10 @@ function chkpw(f){
 					<div class="row">
 						<div class="col-md-9 mb-3">
 						<div class="row">
+							<div class="col-md-3 mb-3">
+							<label for="id">사진</label> <img src=""  width="100px"  height="120px" name="file1">
+							<button   class="btn btn-primary  btn-block" onclick="win_upload()">이미지</button>
+						</div>
 						<div class="col-md-6 mb-3">
 							<label for="id">작성자</label> <input type="text"
 								class="form-control" id="id" placeholder="작성자" value="" required  name="name">
