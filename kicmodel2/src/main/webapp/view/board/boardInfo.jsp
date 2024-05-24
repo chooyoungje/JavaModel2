@@ -46,11 +46,16 @@
 				<td>readcnt</td>
 				<td>${board.readcnt}</td>
 			</tr>
-			<tr class="text-center">
+			
+			<tr>
+				<td>picture</td>
+				<td><img src="${pageContext.request.contextPath}/img/board/${board.file1}" width="100px" height="120px"></td>
+			</tr>
+			<tr class="text-center">   
 				<td>
 				<a class ="btn btn-primary" href="${pageContext.request.contextPath}/board/boardUpdateForm?num=${board.num}">게시판수정</a>
 				<a class ="btn btn-primary" href="${pageContext.request.contextPath}/board/boardDeleteForm?num=${board.num}">게시판지우기</a>
-				<a class ="btn btn-primary" href="${pageContext.request.contextPath}/board/boardPassForm">비밀번호수정</a>
+				<a class ="btn btn-primary" href="${pageContext.request.contextPath}/board/boardList?boardId=${sessionScope.boardId}">글목록</a>
 				</td>
 			</tr>
 			</table>

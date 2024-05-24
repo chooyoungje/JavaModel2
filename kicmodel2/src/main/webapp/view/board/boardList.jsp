@@ -23,23 +23,29 @@
 <body>
 
 <div class ="container">
-<a class="btn btn-primary float-right m-2" href="${pageContext.request.contextPath}/board/boardForm">게시판 입력</a>
+<h2 class ="text-center">${boardName}</h2>
+<h2 class ="text-center">${boardCount}개</h2>
+
+<a class="btn btn-primary float-right m-2" href="${pageContext.request.contextPath}/board/boardForm?boardId=${sessionScope.boardId}">게시판 입력</a>
   		<table class ="table">
   			<thead>
   				<tr>
-  					<th>아이디</th>
+  					<th>ser</th>
+  					<th>번호</th>
   					<th>이름</th>
   					<th>제목</th>
   					<th>내용</th>
   					 <th>이미지</th>
   					<th>날짜</th>
   					<th>조회</th>
-  					
   				</tr>
   			</thead>
   			<tbody>
+				<c:set var="count" value="${boardCount}"/>
   				<c:forEach var="a" items="${requestScope.boardList}">
   					<tr>
+  						<td>${count}</td>
+  						<c:set var="count" value="${boardCount-1}"/>
   						<td>${a.num}</td>
   						<td>${a.name}</td>
   						<td><a href="boardInfo?num=${a.num}">${a.subject}</a></td>

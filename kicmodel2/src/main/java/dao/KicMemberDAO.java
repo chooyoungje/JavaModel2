@@ -53,6 +53,7 @@ public class KicMemberDAO {
 				kic.setTel(rs.getString("tel"));
 				kic.setEmail(rs.getString("email"));
 				kic.setPicture(rs.getString("picture"));
+				
 				return kic;
 			}
 			else {
@@ -119,7 +120,7 @@ public ArrayList<KicMember> getAllMember() {
 			pstmt.setString(5,kic.getTel());
 			pstmt.setString(6,kic.getEmail());
 			pstmt.setString(7,kic.getPicture());
-			
+			System.out.println(kic.getPicture());
 			int num = pstmt.executeUpdate();
 			return num;
 		} catch (SQLException e) {
@@ -134,7 +135,7 @@ public ArrayList<KicMember> getAllMember() {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		String sql =
-		"update kicmember set name= ?, gender= ?, tel= ?, email= ? where id= ?";
+		"update kicmember set name= ?, gender= ?, tel= ?, email= ?, picture=? where id= ?";
 		//                                                       여기에 , 를 쓰면 안 된다
 		// 4. mapping
 		try {
@@ -143,7 +144,9 @@ public ArrayList<KicMember> getAllMember() {
 			pstmt.setInt(2, kic.getGender());
 			pstmt.setString(3, kic.getTel());
 			pstmt.setString(4, kic.getEmail());
-			pstmt.setString(5, kic.getId());
+			pstmt.setString(5, kic.getPicture());
+			pstmt.setString(6, kic.getId());
+			
 			// sql 실행
 			int num = pstmt.executeUpdate();
 			return num;

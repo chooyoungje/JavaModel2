@@ -39,6 +39,14 @@ body {
 
 </style>
 </head>
+
+<script>
+function win_upload() {
+	let op = "width=500, height=150, left=50, top=150";
+	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);
+}
+
+</script>
 <body>
 
 
@@ -47,11 +55,12 @@ body {
 		<div class="input-form-backgroud row">
 			<div class="input-form col-md-12 mx-auto">
 				<h4 class="mb-3">회원정보 수정</h4>
-				<form class="validation-form" novalidate      action="memberUpdatePro"   method="post">
+				<form class="validation-form" novalidate    name="joinform"  action="memberUpdatePro"   method="post">
+					<input type="hidden" name="picture">
 					<div class="row">
 					   <div class="col-md-3 mb-3">
-							<label for="id">사진</label> <img src=""  width="100px"  height="120px" name="picture">
-							<button   class="btn btn-primary  btn-block">사진업로드</button>
+							<label for="id">사진</label> <img src="${pageContext.request.contextPath}/img/member/picture/${mem.picture}"  width="100px"  height="120px" id="pic" name="picture">
+							<div   class="btn btn-primary  btn-block" onclick="win_upload()">사진업로드</div>
 						</div>
 						<div class="col-md-9 mb-3">
 						<div class="row">
@@ -90,7 +99,7 @@ body {
 					</div>
 					
 					<div class="mb-3">
-						<label for="email">이메일</label> <input type="email"  name="email" value="${mem.email } %>"
+						<label for="email">이메일</label> <input type="email"  name="email" value="${mem.email}"
 							class="form-control" id="email" placeholder="you@example.com"
 							required>
 						<div class="invalid-feedback">이메일을 입력해주세요.</div>

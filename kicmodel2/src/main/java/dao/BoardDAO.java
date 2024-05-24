@@ -43,7 +43,7 @@ public class BoardDAO {
 			pstmt.setString(3, board.getSubject());
 			pstmt.setString(4, board.getContent());
 			pstmt.setString(5, board.getFile1());
-			pstmt.setString(6, "1");
+			pstmt.setString(6, board.getBoardid());
 			
 			int num = pstmt.executeUpdate();
 			return num;
@@ -58,15 +58,16 @@ public class BoardDAO {
 	}
 	
 	
-	public ArrayList<KicBoard> getAllBoard (){
+	public ArrayList<KicBoard> getAllBoard (String boardId){
 		
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
-		String sql = "select * from kicboard order by num desc";
+		String sql = "select * from kicboard where boardid=?  order by num desc";
 		ArrayList<KicBoard> boardList = new ArrayList<KicBoard>();
 		
 			try {
 				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,boardId);
 				ResultSet rs =  pstmt.executeQuery();
 				while(rs.next()) {
 				KicBoard board = new KicBoard();
@@ -76,8 +77,8 @@ public class BoardDAO {
 				String subject = rs.getString("subject");
 				String content = rs.getString("content");
 				Date date = rs.getDate("regdate");
-				String boardId = rs.getString("boardid");
 				int readcnt = rs.getInt("readcnt");
+				String file1 = rs.getString("file1");
 				
 				board.setNum(num);
 				board.setPw(pw);
@@ -87,6 +88,8 @@ public class BoardDAO {
 				board.setRegdate(date);
 				board.setBoardid(boardId);
 				board.setReadcnt(readcnt);
+				board.setFile1(file1);
+				
 				boardList.add(board);
 				}
 				
@@ -118,6 +121,7 @@ public class BoardDAO {
 					Date date = rs.getDate("regdate");
 					String boardId = rs.getString("boardid");
 					int readcnt = rs.getInt("readcnt");
+					String file = rs.getString("file1");
 					
 					board.setNum(dBnum);
 					board.setPw(pw);
@@ -127,6 +131,8 @@ public class BoardDAO {
 					board.setRegdate(date);
 					board.setBoardid(boardId);
 					board.setReadcnt(readcnt);
+					board.setFile1(file);
+					
 					}
 					
 					return board;
@@ -175,7 +181,46 @@ public class BoardDAO {
 			return 0;
 		}
 	}
+	
+	
+	
+	public int addReadCnt(int num) {
+		Connection conn = getConnection();
+		PreparedStatement pstmt= null;
+		String sql = "update kicboard set readcnt=readcnt+1 where num = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			int result = pstmt.executeUpdate();
+			return result;
+		} catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
 	}
+	
+	
+	public int boardCount(String boardId) {
+		Connection conn = getConnection();
+		PreparedStatement pstmt= null;
+		String sql = "select nvl(count(*),0) from kicboard where boardid = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, boardId);
+			ResultSet rs = pstmt.executeQuery();
+		
+			if(rs.next()) {
+				return rs.getInt(1);
+			}else{
+				return 0;
+			}
+
+		} catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
+	}
+}
 	
 	
 	

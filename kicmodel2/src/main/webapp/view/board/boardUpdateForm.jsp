@@ -1,5 +1,3 @@
-<%@page import="model.KicMember"%>
-<%@page import="dao.KicMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <html>
@@ -35,65 +33,83 @@ body {
 	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
 }
-
-
 </style>
 </head>
+
+<script>
+function chkpw(f){
+	if(f.pw.value == f.pw2.value){
+		return true;
+	} else{
+		alert("비밀번호를 확인해주새요")
+		f.pw2.focus()
+		return false;
+	}
+}
+
+function win_upload() {
+	let op = "width=500, height=150, left=50, top=150";
+	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);  
+}
+
+</script>
 <body>
-
-
 <br>
 	<div class="container">
 		<div class="input-form-backgroud row">
 			<div class="input-form col-md-12 mx-auto">
-				<h4 class="mb-3">게시글 수정</h4>
-				<form class="validation-form" novalidate      action="boardUpdatePro"   method="post">
+				<h4 class="mb-3">게시판 등록</h4>
+				<form class="validation-form" novalidate enctype="multipart/form-data"
+						 action="boardPro"  name="joinform"  method="post" onsubmit="return chkpw(this)">
+					<input type="hidden" value="${board.boardid}" name="boardId">
 					<div class="row">
-					   <div class="col-md-3 mb-3">
-							<label for="id">사진</label> <img src=""  width="100px"  height="120px" name="file1">
-							<button   class="btn btn-primary  btn-block">이미지</button>
-						</div>
 						<div class="col-md-9 mb-3">
 						<div class="row">
 						
 						<div class="col-md-6 mb-3">
-							<input type="hidden" readonly
-								class="form-control" id="id" placeholder="글번호" value="${board.num }" required  name="num">
-							<div class="invalid-feedback">제목을 입력해주세요.</div>
+							<label for="id">작성자</label> <input type="text"
+								class="form-control" id="id" placeholder="작성자" value="${board.name}" required  name="name">
+							<div class="invalid-feedback">작성자을 입력해주세요.</div>
 						</div>
 						<div class="col-md-6 mb-3">
-							<label for="id">제목</label> <input type="text" readonly
-								class="form-control" id="id"  value="${board.subject }" required  name="subject">
-							<div class="invalid-feedback">제목을 입력해주세요.</div>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="content">내용</label> 
-								<textarea class="form-control" id="content" name="content" rows="5" cols="30">${board.content }</textarea>
-							<div class="invalid-feedback">내용을 입력해주세요.</div>
+							<label for="name">비밀번호</label> <input type="text"
+								class="form-control" id="pw" placeholder="" value="${board.pw}"  name="pw"
+								required>
+							<div class="invalid-feedback">비밀번호 입력해주세요.</div>
 						</div>
 					</div></div></div>
 					
 						<div class="row">
 						<div class="col-md-6 mb-3">
-							<label for="pass">비밀번호</label> <input type="password"
-								class="form-control" id="pass" placeholder="비밀번호" value="${board.pw }" required  name="pw">
-							<div class="invalid-feedback">비밀번호을 입력해주세요.</div>
+							<label for="pass2">제목</label> <input type="text"
+								class="form-control" id="pass2" placeholder="" value="${board.subject}"   name="subject"
+								required>
+							<div class="invalid-feedback">제목을 입력해주세요.</div>
 						</div>
 					</div>
 					
 					
 					<div class="mb-3">
-						<label for="email">이름</label> <input type="text"  name="name" value="${board.name }"
-							class="form-control" id="email" 
-							required>
-						<div class="invalid-feedback">이름을 입력해주세요.</div>
+						<label for="email">내용</label> <textarea rows="5" cols="80" name="content"
+							class="form-control" id="content" placeholder=""
+							required> ${board.content}</textarea>
+						<div class="invalid-feedback">내용을 입력해주세요.</div>
 					</div>
-					<button class="btn btn-primary btn-lg btn-block" type="submit">수정
+					<div class="mb-3">
+					
+					<div class="mb-3">
+						<label for="file">파일 업로드 : ${board.file1}</label> 
+						<input type="file"  name="file1" value="" class="form-control" id="file1">
+					</div>
+
+
+					<input type="hidden" value="${board.file1}" name="originFile">
+					</div>	
+					<button class="btn btn-primary btn-lg btn-block" type="submit">작성
 						완료</button>
 				</form>
 			</div>
 		</div>
-			<% System.out.print(request.getContextPath()); %>
 	</div>
 	<script> window.addEventListener('load', () => { const forms = document.getElementsByClassName('validation-form'); Array.prototype.filter.call(forms, (form) => { form.addEventListener('submit', function (event) { if (form.checkValidity() === false) { event.preventDefault(); event.stopPropagation(); } form.classList.add('was-validated'); }, false); }); }, false); </script>
 </body>

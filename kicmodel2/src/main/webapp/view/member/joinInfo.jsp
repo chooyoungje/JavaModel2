@@ -42,7 +42,7 @@
 			</tr>
 			<tr>
 				<td>picture</td>
-				<td>${mem.picture}</td>
+				<td><img src="${pageContext.request.contextPath }/img/member/picture/${mem.picture}" width="100px" height="120px"></td>
 			</tr>
 			<tr>
 				<td>

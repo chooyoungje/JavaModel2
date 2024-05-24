@@ -49,7 +49,7 @@ function chkpw(f){
 
 function win_upload() {
 	let op = "width=500, height=150, left=50, top=150";
-	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);
+	open("${pageContext.request.contextPath}/member/pictureimgForm", "", op);  
 }
 
 </script>
@@ -59,14 +59,13 @@ function win_upload() {
 		<div class="input-form-backgroud row">
 			<div class="input-form col-md-12 mx-auto">
 				<h4 class="mb-3">게시판 등록</h4>
-				<form class="validation-form" novalidate  action="boardPro"   method="post" onsubmit="return chkpw(this)">
+				<form class="validation-form" novalidate enctype="multipart/form-data"
+						 action="boardPro"  name="joinform"  method="post" onsubmit="return chkpw(this)">
+					<input type="hidden" value="${boardId}" name="boardId">
 					<div class="row">
 						<div class="col-md-9 mb-3">
 						<div class="row">
-							<div class="col-md-3 mb-3">
-							<label for="id">사진</label> <img src=""  width="100px"  height="120px" name="file1">
-							<button   class="btn btn-primary  btn-block" onclick="win_upload()">이미지</button>
-						</div>
+						
 						<div class="col-md-6 mb-3">
 							<label for="id">작성자</label> <input type="text"
 								class="form-control" id="id" placeholder="작성자" value="" required  name="name">
@@ -102,10 +101,12 @@ function win_upload() {
 						<div class="invalid-feedback">내용을 입력해주세요.</div>
 					</div>
 					<div class="mb-3">
-						<label for="tel">파일업로드</label> <input type="file"
-							class="form-control" id="tel" placeholder=""    name="file"
-							required>
-						<div class="invalid-feedback">파일업로드 입력해주세요.</div>
+					
+					<div class="mb-3">
+						<label for="file">파일 업로드</label> 
+						<input type="file"  name="file1" class="form-control" id="file1">
+					</div>
+
 					</div>	
 					<button class="btn btn-primary btn-lg btn-block" type="submit">작성
 						완료</button>
